@@ -16,7 +16,7 @@ fetch("http://localhost:3000/api/products")
         console.log(p.description);
 
         block_product = document.createElement ('div');
-        block_product.id = 'product';
+        block_product.id = p._id;
         elt.appendChild(block_product);
         block_product.style.height = '400px';
         block_product.style.width = '300px';
@@ -25,6 +25,17 @@ fetch("http://localhost:3000/api/products")
         block_product.style.borderRadius = '5%';
         block_product.style.borderRadius = '5%';
         block_product.style.overflow = 'hidden';
+        block_product.onmouseenter = function(event){
+           event.target.style.boxShadow = '10px 5px 5px #3d424f';
+        }
+        block_product.onmouseleave = function(event){
+            event.target.style.boxShadow = '';
+         }
+
+         block_product.style.cursor ='pointer';
+         block_product.onclick = function(){
+             document.location.href = '../html/product.html';
+         }
         
 
         let img = document.createElement('img');
