@@ -5,16 +5,36 @@ fetch("http://localhost:3000/api/products")
     }
   })
   .then(function(value) {
-    console.log(value);
     let elt = document.getElementById('items');
-    var block_product;
     
     for (let p of value){
 
-        console.log(p.imageUrl);
-        console.log(p.name);
-        console.log(p.description);
+        let block_product = document.createElement ('a');
+        block_product.href = '../html/product.html?id='+p._id;
+        block_product.id = p._id;
+        elt.appendChild(block_product);
 
+        let article = document.createElement('article');
+        block_product.appendChild(article);
+
+        let img = document.createElement('img');
+        img.src = p.imageUrl;
+        img.alt = p.altTxt;
+        article.appendChild(img);
+
+        let productName = document.createElement('h3');
+        productName.textContent = p.name;
+        article.appendChild(productName);
+
+        let productDescription = document.createElement('p');
+        productDescription.textContent = p.description;
+        article.appendChild(productDescription);
+        productDescription.title = p.description;
+
+
+
+/*
+        
         block_product = document.createElement ('div');
         block_product.id = p._id;
         elt.appendChild(block_product);
@@ -72,9 +92,11 @@ fetch("http://localhost:3000/api/products")
         product_description.style.textOverflow = 'ellipsis';
         product_description.style.whiteSpace = 'nowrap';
     
-
+*/
     }
-  })
+
+    
+  }) 
   .catch(function(err) {
     // Une erreur est survenue
   }); 
