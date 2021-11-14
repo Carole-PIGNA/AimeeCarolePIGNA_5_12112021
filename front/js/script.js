@@ -34,7 +34,10 @@ fetch("http://localhost:3000/api/products")
 
          block_product.style.cursor ='pointer';
          block_product.onclick = function(){
-             document.location.href = '../html/product.html';
+            console.log('>>>>> ' + p._id);
+             document.location.href = '../html/product.html?id='+p._id;
+            
+             
          }
         
 
