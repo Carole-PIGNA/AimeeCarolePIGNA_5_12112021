@@ -70,7 +70,7 @@ fetch("http://localhost:3000/api/products")
     
     add.addEventListener("click", function() {
      
-      // récupération caractéristiques Produit
+      // récupération caractéristiques Produit (formulaire)
       let optionsProduit = {
         idProduit: id,
         qty: document.getElementById('quantity').value,
@@ -96,10 +96,22 @@ fetch("http://localhost:3000/api/products")
         produitsdanspanier.push(optionsProduit);
         localStorage.setItem("article", JSON.stringify(produitsdanspanier));
         
-        if (articlePanier !== null || articlePanier.length !==0){ 
+        
+        if (articlePanier !== null || articlePanier.length !== 0){ 
         
           for(let pDP of articlePanier){
-            produitsdanspanier.push(pDP);
+            // si produit déjà présent (même id, même couleur), on incrémente seulement la qté
+            if (pDP.idProduit == optionsProduit.idProduit && pDP.couleurProduit == optionsProduit.couleurProduit){
+              var intQty_pDP = parseInt(pDP.qty); // conversion des string en entier pour l'incrémentation
+              var intQty_optionsProduit = parseInt(optionsProduit.qty);// conversion des string en entier pour l'incrémentation
+              optionsProduit.qty  = intQty_pDP + intQty_optionsProduit +''; // optionsProduit.qty étant un string, on fait l'addition, puis on le remet en strin par le +''
+
+            }
+            else{
+              produitsdanspanier.push(pDP);
+            }
+            
+            
   
           }
           
