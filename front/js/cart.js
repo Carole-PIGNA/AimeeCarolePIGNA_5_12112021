@@ -12,7 +12,8 @@ fetch("http://localhost:3000/api/products")
         // parcourir l'array
 
         let carts = document.getElementById('cart__items');
-
+        var totalQty = 0;
+        var totalprix = 0;
 
         for (let i of ArrayJSON) {
             
@@ -112,17 +113,26 @@ fetch("http://localhost:3000/api/products")
                                 attr_deleteItem.value = 'deleteItem';
                                 deleteItem.textContent = 'Supprimer ';
                                 
+                    // calcul Total prix
 
+                totalprix += (parseInt(p.price)* parseInt(i.qty));
 
                 }
 
-
-
-
-
+            i_qty = parseInt(i.qty);  
 
             }
+           // calcul total quantité
+            totalQty += i_qty;
         }
+
+        let totalQuantity = document.getElementById('totalQuantity');
+        totalQuantity.textContent = totalQty;
+
+        let totalPrice = document.getElementById('totalPrice');
+        totalPrice.textContent  = totalprix;
+
+
     })
     .catch(function (err) {
         // Une erreur est survenue
