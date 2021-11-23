@@ -96,6 +96,7 @@ fetch("http://localhost:3000/api/products")
                                 itemQuantity.setAttribute("max", "100");
                                 itemQuantity.setAttribute("value", i.qty);
                                 itemQuantity.name= 'itemQuantity';
+                               
 
 
                         //suppression articleSuppressionArticle
@@ -124,13 +125,37 @@ fetch("http://localhost:3000/api/products")
             }
            // calcul total quantité
             totalQty += i_qty;
+
+
+           
         }
+
+
 
         let totalQuantity = document.getElementById('totalQuantity');
         totalQuantity.textContent = totalQty;
 
         let totalPrice = document.getElementById('totalPrice');
         totalPrice.textContent  = totalprix;
+
+         // modification quantité articles
+
+         var selectqty = document.getElementsByClassName('itemQuantity'); 
+// var prodModifie = selectqty.closest('div').parent().closest(div).closest(div).querySelector('h2').innerText;
+         for (var i =0; i < selectqty.length; i++){
+             var qty = selectqty[i];
+             
+             //qty.addEventListener('change', updateValue); 
+             qty.onchange = function(e){
+
+                console.log('Nouvelle quantité:' + e.target.value);
+               // console.log('Nom du produit modifie: ' +prodModifie);
+                //this.closest('article').firstChild.
+
+             }
+           
+
+         }
 
 
     })
