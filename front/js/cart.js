@@ -201,9 +201,21 @@ fetch("http://localhost:3000/api/products")
             for (var i =0; i < deleteProduit.length; i++){
             var del = deleteProduit[i];
             del.onclick = function (e){
-                    console.log('Supprimé' );
-                    console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
-                    console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
+                idToDelete = e.target.closest('article').dataset.id;
+
+                    for(i=0; i<arr.length;i++){
+                        if(JSON.parse(localStorage.getItem("article"))[i].idProduit==e.target.closest('article').dataset.id){
+                            delete arr[i];
+                            console.log(arr)
+                        }
+                    }
+                    temp2 = [];
+                    for(let i of arr){
+                        i && temp2.push(i);
+                        arr = temp2;
+                    }
+                    localStorage.removeItem("article"); 
+                    localStorage.setItem("article", JSON.stringify(arr))
                 }
             }
 
