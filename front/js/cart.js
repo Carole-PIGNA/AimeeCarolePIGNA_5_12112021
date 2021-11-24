@@ -216,6 +216,7 @@ fetch("http://localhost:3000/api/products")
                     }
                     localStorage.removeItem("article"); 
                     localStorage.setItem("article", JSON.stringify(arr))
+                    window.location.reload();
                 }
             }
 
