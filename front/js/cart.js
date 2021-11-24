@@ -197,22 +197,15 @@ fetch("http://localhost:3000/api/products")
              // suppression article
         let arr = JSON.parse(localStorage.getItem("article"));
         let idToDelete;
-        for (var i = 0; i < arr.length; i++){
-            idToDelete = arr[i].idProduit
+
             for (var i =0; i < deleteProduit.length; i++){
             var del = deleteProduit[i];
             del.onclick = function (e){
                     console.log('Supprimé' );
                     console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
                     console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
-                    if ((idToDelete == e.target.closest('article').dataset.id )){
-                        console.log('>>>: ' + idToDelete)
-
-                        delete arr[i]; 
-                   }
                 }
             }
-    }
 
 
 
