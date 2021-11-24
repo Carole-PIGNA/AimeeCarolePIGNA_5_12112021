@@ -70,6 +70,19 @@ fetch("http://localhost:3000/api/products")
     
     add.addEventListener("click", function() {
      
+      
+      // fonction fenêtre pop up
+      const popupConfirmation = () =>{
+        if (window.confirm (`Cliquez OK pour continuer les achats
+        ou Annuler pour voir votre Panier`)){
+          window.location.href = '../html/index.html';
+        }else{
+          window.location.href = '../html/cart.html';
+        }
+      }
+      
+      popupConfirmation();
+
       // récupération caractéristiques Produit (formulaire)
       let optionsProduit = {
         idProduit: id,
@@ -88,6 +101,7 @@ fetch("http://localhost:3000/api/products")
       // si il y a déjà des produits enregistré dans le local storage
       if (produitsdanspanier) {
         produitsdanspanier.push(optionsProduit);
+    
       
       }
       // si rien d'enregistré dans le local storage

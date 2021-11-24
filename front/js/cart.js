@@ -20,14 +20,18 @@ fetch("http://localhost:3000/api/products")
             for (let p of value) {
                 let id = i.idProduit;
                 if (id == p._id) {
-                    console.log(i);
+                    //console.log(i);
                     // article class="cart__item"
                     let article = document.createElement('article');
                     carts.appendChild(article);
                     let attr = document.createAttribute('class');
                     attr.value = 'cart__item';
                     article.setAttributeNode(attr);
-
+                    article.dataset.id = i.idProduit;
+                    article.dataset.color = i.couleurProduit;
+                    //console.log(article.dataset.id );
+                    //console.log(article.dataset.color);
+                    
                     //<div class="cart__item__img">
                     let cart__item__img = document.createElement('div');
                     article.appendChild(cart__item__img);
@@ -61,6 +65,7 @@ fetch("http://localhost:3000/api/products")
                             let couleur_produit = document.createElement('p');
                             couleur_produit.textContent = i.couleurProduit;
                             cart__item__content__description.appendChild(couleur_produit);
+                          
 
                             let prix_produit = document.createElement('p');
                             prix_produit.textContent = p.price +'€';
@@ -89,7 +94,7 @@ fetch("http://localhost:3000/api/products")
                                 let itemQuantity = document.createElement('input');
                                 qte_produit.appendChild(itemQuantity);
                                 let attr_itemQuantity = document.createAttribute('class');
-                                attr_itemQuantity.value = 'itemQuantity';
+                                attr_itemQuantity.value = 'cart__item__content__settings__quantity';
                                 qte_produit.setAttributeNode(attr_itemQuantity);
                                 itemQuantity.setAttribute("type", "number");
                                 itemQuantity.setAttribute("min", "1");
@@ -140,22 +145,108 @@ fetch("http://localhost:3000/api/products")
 
          // modification quantité articles
 
-         var selectqty = document.getElementsByClassName('itemQuantity'); 
-// var prodModifie = selectqty.closest('div').parent().closest(div).closest(div).querySelector('h2').innerText;
-         for (var i =0; i < selectqty.length; i++){
+         var selectqty = document.getElementsByClassName('cart__item__content__settings__quantity'); 
+        var deleteProduit = document.getElementsByClassName ('cart__item__content__settings__delete');
+
+
+        for (var i =0; i < selectqty.length; i++){
              var qty = selectqty[i];
+
+             var del = deleteProduit[i];
              
-             //qty.addEventListener('change', updateValue); 
+            // ajout ou basse quantité articles
              qty.onchange = function(e){
 
-                console.log('Nouvelle quantité:' + e.target.value);
-               // console.log('Nom du produit modifie: ' +prodModifie);
-                //this.closest('article').firstChild.
+               console.log('Nouvelle quantité:' + e.target.value);
+               // console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
+               // console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
+              let productModified;
+              let arr = JSON.parse(localStorage.getItem("article"));
+              console.log(">>>> Arr  before")
+              console.log(ArrayJSON);
+               for (var i = 0; i < arr.length; i++){
+                productModified = {
+                    'idProduit' : e.target.closest('article').dataset.id,
+                    'qty' : e.target.value,
+                    'couleurProduit':e.target.closest('article').dataset.color,
+                };
+                if ((arr[i].idProduit == e.target.closest('article').dataset.id ) && 
+                (arr[i].couleurProduit == e.target.closest('article').dataset.color)){
+                    delete arr[i]; 
+               }
+            }
+            temp = [];
+            for(let i of arr){
+                i && temp.push(i);
+                arr = temp;
+            }
+
+            arr.push(productModified);
+            localStorage.removeItem("article"); 
+            localStorage.setItem("article", JSON.stringify(arr))
+            arr.push(productModified)
+
+           // console.log(ArrayJSON);
 
              }
-           
+            
 
-         }
+            }
+               /* PanierModified = [];
+                PanierModified = ArrayJSON;
+                console.log(PanierModified);    
+                
+                for (p of ArrayJSON){
+                      let productModified = {
+                                'idProduit' : p.idProduit,
+                                'qty' : e.target.closest('input').value,
+                                'couleurProduit':p.couleurProduit,
+
+
+                            };
+
+                        if ((p.idProduit == e.target.closest('article').dataset.id ) && (p.couleurProduit == e.target.closest('article').dataset.color)){
+                           // var newqty = e.target.closest('input').value;
+                            //console.log(newqty);
+
+                          
+                            PanierModified.push(productModified);
+                            localStorage.setItem("article", JSON.stringify(PanierModified));
+
+                        }
+
+                      /*  else{
+                            let productModified = {
+                                idProduit : p.idProduit,
+                                qty : p.qty,
+                                couleurProduit:p.couleurProduit,
+
+
+                            };*/
+
+                           
+                            //PanierModified.push(productModified);
+                            //localStorage.setItem("article", JSON.stringify(PanierModified));
+
+
+                        
+                        
+
+                    
+                
+    
+             
+
+             // suppression article
+           /*  del.onclick = function (e){
+                console.log('Supprimé' );
+                console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
+                console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
+                
+
+
+             }*/
+
 
 
     })
