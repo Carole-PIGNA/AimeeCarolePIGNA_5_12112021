@@ -192,60 +192,27 @@ fetch("http://localhost:3000/api/products")
             
 
             }
-               /* PanierModified = [];
-                PanierModified = ArrayJSON;
-                console.log(PanierModified);    
-                
-                for (p of ArrayJSON){
-                      let productModified = {
-                                'idProduit' : p.idProduit,
-                                'qty' : e.target.closest('input').value,
-                                'couleurProduit':p.couleurProduit,
-
-
-                            };
-
-                        if ((p.idProduit == e.target.closest('article').dataset.id ) && (p.couleurProduit == e.target.closest('article').dataset.color)){
-                           // var newqty = e.target.closest('input').value;
-                            //console.log(newqty);
-
-                          
-                            PanierModified.push(productModified);
-                            localStorage.setItem("article", JSON.stringify(PanierModified));
-
-                        }
-
-                      /*  else{
-                            let productModified = {
-                                idProduit : p.idProduit,
-                                qty : p.qty,
-                                couleurProduit:p.couleurProduit,
-
-
-                            };*/
-
-                           
-                            //PanierModified.push(productModified);
-                            //localStorage.setItem("article", JSON.stringify(PanierModified));
-
-
-                        
-                        
-
-                    
-                
-    
              
 
              // suppression article
-           /*  del.onclick = function (e){
-                console.log('Supprimé' );
-                console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
-                console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
-                
+        let arr = JSON.parse(localStorage.getItem("article"));
+        let idToDelete;
+        for (var i = 0; i < arr.length; i++){
+            idToDelete = arr[i].idProduit
+            for (var i =0; i < deleteProduit.length; i++){
+            var del = deleteProduit[i];
+            del.onclick = function (e){
+                    console.log('Supprimé' );
+                    console.log('Nouvelle id:' + e.target.closest('article').dataset.id);
+                    console.log('Nouvelle couleur:' + e.target.closest('article').dataset.color);
+                    if ((idToDelete == e.target.closest('article').dataset.id )){
+                        console.log('>>>: ' + idToDelete)
 
-
-             }*/
+                        delete arr[i]; 
+                   }
+                }
+            }
+    }
 
 
 
