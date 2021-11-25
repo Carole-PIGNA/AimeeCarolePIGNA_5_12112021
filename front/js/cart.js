@@ -219,7 +219,111 @@ fetch("http://localhost:3000/api/products")
                     window.location.reload();
                 }
             }
+// ***************************************************************
+// ********************Formulaire de commande **************************
+//Séléction bouton "Commander"
+const btnOrder = document.querySelector('#order');
+var prenom = document.getElementById('firstName');
+var nom = document.getElementById('lastName');
+var adresse = document.getElementById('address');
+var ville = document.getElementById('city');
+var email = document.getElementById('email');
 
+
+//--------------addEvetListener -----
+
+btnOrder.addEventListener('click', (e)=>{
+
+
+    e.preventDefault();
+    //Si un champ est vide et qu'on clique sur Order, => retourne un message d'erreur
+    if (!prenom.value){
+      
+        erreur = 'Veuillez renseigner un prénom';
+        document.getElementById('firstNameErrorMsg').innerHTML = erreur;
+
+    }
+    if (!nom.value){
+        erreur = 'Veuillez renseigner un nom';
+        document.getElementById('lastNameErrorMsg').innerHTML = erreur;
+    }
+
+    if (!adresse.value){
+        erreur = 'Veuillez renseigner une adresse';
+        document.getElementById('addressErrorMsg').innerHTML = erreur;
+    }
+
+    if (!ville.value){
+        erreur = 'Veuillez renseigner une ville';
+        document.getElementById('cityErrorMsg').innerHTML = erreur;
+    }
+
+    if (!email.value){
+        erreur = 'Veuillez renseigner une adresse mail';
+        document.getElementById('emailErrorMsg').innerHTML = erreur;
+    }
+
+    if (!prenom.value ||!nom.value || !adresse.value || !ville.value || !email.value ){
+        e.preventDefault();
+        return false;
+    } else{
+
+        
+    // récupération des valeurs du formulaire pour les mettre dans le localstorage
+    
+    localStorage.setItem('prenom', document.querySelector('#firstName').value );
+    localStorage.setItem('nom', document.querySelector('#lastName').value );
+    localStorage.setItem('adresse', document.querySelector('#address').value );
+    localStorage.setItem('ville', document.querySelector('#city').value );
+    localStorage.setItem('email', document.querySelector('#email').value );
+
+    
+// Mettre les valeurs du formulaire dans un objet
+const formulaire = {
+    prenom:localStorage.getItem('prenom'),
+    nom:localStorage.getItem('nom'),
+    adresse:localStorage.getItem('adresse'),
+    ville:localStorage.getItem('ville'),
+    email:localStorage.getItem('email')
+
+}
+
+// Mettre les valeurs du formulaire et les produits séléctionnés dans un objet
+const aEnvoyer = {
+    ArrayJSON,
+   formulaire,
+
+}
+
+        alert('Commande enregistrée !');
+    }
+
+
+    // vérif saisie email : faite directement dans le
+
+    /*function verif_email(saisie)
+    {
+        var pattern = /^[a-z0-9.-]{2,}@+[a-z0-9.-]{2,}$/i;
+     
+        if (pattern.test(saisie))
+        {
+            window.alert('La saisie est une adresse email valide !');
+        }
+        else
+        {
+            window.alert('La saisie est invalide !');
+        }
+    }
+   
+        var email = document.getElementById('email').value;
+        verif_email(email);
+   
+*/
+
+console.log('aEnvoyer');
+console.log(aEnvoyer);
+
+});
 
 
     })
