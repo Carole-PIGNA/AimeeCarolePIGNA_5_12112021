@@ -7,4 +7,7 @@ router.get('/', productCtrl.getAllProducts);
 router.get('/:id', productCtrl.getOneProduct);
 router.post('/order', productCtrl.orderProducts);
 
+// Test Order router
+//router.get('/', productCtrl.getAllOrderProducts);
+
 module.exports = router;

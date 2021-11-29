@@ -293,48 +293,88 @@ btnOrder.addEventListener('click', (e)=>{
         
           
                   // Mettre les valeurs du formulaire dans un objet
-                      contact = {
-                        firstName:localStorage.getItem('prenom'),
-                        lastName:localStorage.getItem('nom'),
-                        address:localStorage.getItem('adresse'),
-                        city:localStorage.getItem('ville'),
-                        email:localStorage.getItem('email')
-  
-                      }
+                  const contact = {
+                    firstName: document.querySelector("#firstName").value,
+                    lastName: document.querySelector("#lastName").value,
+                    address: document.querySelector("#address").value,
+                    city: document.querySelector("#city").value,
+                    email: document.querySelector("#email").value
+                
+                  }
+                
           
                       // Mettre les valeurs du formulaire et les produits séléctionnés dans un objet
-                  /*    const _data = {
-                          ArrayJSON,
-                          contact,
-          
-                      }*/
+                   
+                
+
+              
+                   
+                      let products = [];
+
+                    for (let l = 0; l < arr.length; l++) {
+                             let productId = arr[l].idProduit;
+                                products.push(productId)
+
+                         }
                      
 
-                      window.location.href = '../html/confirmation.html';
-        }
+                      let infoSend = {
+                       contact,
+                        products,
                 
-            console.log('aEnvoyer');
-            console.log(aEnvoyer);
+                    }
+
+                    console.log(infoSend);
+            
+
+                      let promise01 = fetch("http://localhost:3000/api/products/order", {
+                        method: "POST",
+                        headers: {
+                          'content-type': "application/json"
+                        },
+                        mode: "cors",
+                        body: JSON.stringify(infoSend),
+                      });
+
+
+                      promise01.then(async (response) => {
+
+                        try {
+                  
+                          const content = await response.json();
+                          console.log(content);
+                  
+                          if (response.ok) {
+                  
+                            console.log('resultat.ok: ${response.ok}');
+                  
+                            console.log("Id de reponse");
+                            console.log(content.orderId);
+                  
+                            localStorage.setItem("responseId", content.orderId)
+                  
+                           // window.location = "confirmation.html";
+                            console.log("responseId");
+                          } else {
+                            console.log('reponse du serveur:' + response.status);
+                            alert('Probléme avec le serveur: erreur ' + response.status);
+                  
+                  
+                  
+                          }
+                  
+                        } catch (e) {
+                          console.log(e);
+                        }
+                      });
+        }
+           
  
         console.log('Commande enregistrée');
 
 
 
-        let _data = {
-            'products' : ArrayJSON.idProduit,
-            'contact' : contact,
-    
-        }
-
-        fetch('http://localhost:3000/api/order', {
-    
-            method: "POST",
-            body: JSON.stringify(_data),
-            headers: {"Content-type": "application/json; charset=UTF-8"},      
-          })
-          .then(() =>  response.status(201).json({message:'object successfully submited'}))
-          .catch(err => response.status(400).json({err}));
-    
+       
 
         
       
