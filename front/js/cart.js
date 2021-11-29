@@ -228,105 +228,153 @@ var nom = document.getElementById('lastName');
 var adresse = document.getElementById('address');
 var ville = document.getElementById('city');
 var email = document.getElementById('email');
+// fonction de vérification des adresses emails
 
+function verif_email(saisie)
+{
+    var pattern = /^[a-z0-9.-]{2,}@+[a-z0-9.-]{2,}$/i;
+ 
+    if (pattern.test(saisie))
+    {
+        return true;
+         
+     }
+    else{
+        window.alert('La saisie est invalide !');
+        return false;
+    }
 
-//--------------addEvetListener -----
+}
+function verif_name(inputtxt)
+  {
+   var letters = /^[A-Za-z]+$/;
+   if(inputtxt.match(letters))
+     {
+
+      return true;
+     }
+   else
+     {
+     alert("Veuillez mettre un nom/prénom valide");
+     return false;
+     }
+  }
+
+  var contact;
+
+//--------------Analyse de données saisies -----
 
 btnOrder.addEventListener('click', (e)=>{
 
 
     e.preventDefault();
+
+       
     //Si un champ est vide et qu'on clique sur Order, => retourne un message d'erreur
-    if (!prenom.value){
-      
-        erreur = 'Veuillez renseigner un prénom';
-        document.getElementById('firstNameErrorMsg').innerHTML = erreur;
-
-    }
-    if (!nom.value){
-        erreur = 'Veuillez renseigner un nom';
-        document.getElementById('lastNameErrorMsg').innerHTML = erreur;
-    }
-
-    if (!adresse.value){
-        erreur = 'Veuillez renseigner une adresse';
-        document.getElementById('addressErrorMsg').innerHTML = erreur;
-    }
-
-    if (!ville.value){
-        erreur = 'Veuillez renseigner une ville';
-        document.getElementById('cityErrorMsg').innerHTML = erreur;
-    }
-
-    if (!email.value){
-        erreur = 'Veuillez renseigner une adresse mail';
-        document.getElementById('emailErrorMsg').innerHTML = erreur;
-    }
-
-    if (!prenom.value ||!nom.value || !adresse.value || !ville.value || !email.value ){
+    
+    if (!prenom.value || !nom.value || !adresse.value || !ville.value || !email.value ){
         e.preventDefault();
-        return false;
+        alert('Veuillez saisir tous les champs !');
+       
+        
     } else{
+            
+            verif_name(nom.value);
+            verif_name(prenom.value);
+            verif_email(email.value); 
+            
+        if (verif_name(nom.value)== true && verif_name(prenom.value) == true && verif_name(prenom.value) == true){
+                      // récupération des valeurs du formulaire pour les mettre dans le localstorage
+                      localStorage.setItem('prenom', document.querySelector('#firstName').value );
+                      localStorage.setItem('nom', document.querySelector('#lastName').value );
+                      localStorage.setItem('adresse', document.querySelector('#address').value );
+                      localStorage.setItem('ville', document.querySelector('#city').value );
+                      localStorage.setItem('email', document.querySelector('#email').value );
+        
+          
+                  // Mettre les valeurs du formulaire dans un objet
+                      contact = {
+                        firstName:localStorage.getItem('prenom'),
+                        lastName:localStorage.getItem('nom'),
+                        address:localStorage.getItem('adresse'),
+                        city:localStorage.getItem('ville'),
+                        email:localStorage.getItem('email')
+  
+                      }
+          
+                      // Mettre les valeurs du formulaire et les produits séléctionnés dans un objet
+                  
+                      let _data = {
+                        'products' : ArrayJSON.idProduit,
+                        'contact' : contact,
+                
+                    }
+            
+
+                      let promise01 = fetch("http://localhost:3000/api/products/order", {
+                        method: "POST",
+                        headers: {
+                          'content-type': "application/json"
+                        },
+                        mode: "cors",
+                        body: JSON.stringify(_data),
+                      });
+
+
+                      promise01.then(async (response) => {
+
+                        try {
+                  
+                          const content = await response.json();
+                          console.log(content);
+                  
+                          if (response.ok) {
+                  
+                            console.log('resultat.ok: ${response.ok}');
+                  
+                            console.log("Id de reponse");
+                            console.log(content.orderId);
+                  
+                            localStorage.setItem("responseId", content.orderId)
+                  
+                            window.location = "confirmation.html";
+                            console.log("responseId");
+                          } else {
+                            console.log('reponse du serveur: ${response.status');
+                            alert('Probléme avec le serveur: erreur ${response.status}');
+                  
+                  
+                  
+                          }
+                  
+                        } catch (e) {
+                          console.log(e);
+                        }
+                      });
+        }
+                
+            console.log('aEnvoyer');
+            console.log(aEnvoyer);
+ 
+        console.log('Commande enregistrée');
+
+
+
+       
 
         
-    // récupération des valeurs du formulaire pour les mettre dans le localstorage
+      
     
-    localStorage.setItem('prenom', document.querySelector('#firstName').value );
-    localStorage.setItem('nom', document.querySelector('#lastName').value );
-    localStorage.setItem('adresse', document.querySelector('#address').value );
-    localStorage.setItem('ville', document.querySelector('#city').value );
-    localStorage.setItem('email', document.querySelector('#email').value );
-
-    
-// Mettre les valeurs du formulaire dans un objet
-const formulaire = {
-    prenom:localStorage.getItem('prenom'),
-    nom:localStorage.getItem('nom'),
-    adresse:localStorage.getItem('adresse'),
-    ville:localStorage.getItem('ville'),
-    email:localStorage.getItem('email')
-
-}
-
-// Mettre les valeurs du formulaire et les produits séléctionnés dans un objet
-const aEnvoyer = {
-    ArrayJSON,
-   formulaire,
-
-}
-
-        alert('Commande enregistrée !');
-    }
-
-
-    // vérif saisie email : faite directement dans le
-
-    /*function verif_email(saisie)
-    {
-        var pattern = /^[a-z0-9.-]{2,}@+[a-z0-9.-]{2,}$/i;
-     
-        if (pattern.test(saisie))
-        {
-            window.alert('La saisie est une adresse email valide !');
         }
-        else
-        {
-            window.alert('La saisie est invalide !');
-        }
-    }
-   
-        var email = document.getElementById('email').value;
-        verif_email(email);
-   
-*/
-
-console.log('aEnvoyer');
-console.log(aEnvoyer);
-
-});
-
-
+    });
+ 
     })
+   
     .catch(function (err) {
         // Une erreur est survenue
     });
+
+
+    
+ 
+ 
