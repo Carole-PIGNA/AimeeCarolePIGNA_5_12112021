@@ -293,22 +293,38 @@ btnOrder.addEventListener('click', (e)=>{
         
           
                   // Mettre les valeurs du formulaire dans un objet
-                      contact = {
-                        firstName:localStorage.getItem('prenom'),
-                        lastName:localStorage.getItem('nom'),
-                        address:localStorage.getItem('adresse'),
-                        city:localStorage.getItem('ville'),
-                        email:localStorage.getItem('email')
-  
-                      }
+                  const contact = {
+                    firstName: document.querySelector("#firstName").value,
+                    lastName: document.querySelector("#lastName").value,
+                    address: document.querySelector("#address").value,
+                    city: document.querySelector("#city").value,
+                    email: document.querySelector("#email").value
+                
+                  }
+                
           
                       // Mettre les valeurs du formulaire et les produits séléctionnés dans un objet
-                  
-                      let _data = {
-                        'products' : ArrayJSON.idProduit,
-                        'contact' : contact,
+                   
+                
+
+               
+                   
+                      let products = [];
+
+                    for (let l = 0; l < arr.length; l++) {
+                             let productId = arr[l].idProduit;
+                                products.push(productId)
+
+                         }
+                     
+
+                      let infoSend = {
+                       contact,
+                        products,
                 
                     }
+
+                    console.log(infoSend);
             
 
                       let promise01 = fetch("http://localhost:3000/api/products/order", {
@@ -317,7 +333,7 @@ btnOrder.addEventListener('click', (e)=>{
                           'content-type': "application/json"
                         },
                         mode: "cors",
-                        body: JSON.stringify(_data),
+                        body: JSON.stringify(infoSend),
                       });
 
 
@@ -337,11 +353,11 @@ btnOrder.addEventListener('click', (e)=>{
                   
                             localStorage.setItem("responseId", content.orderId)
                   
-                            window.location = "confirmation.html";
+                           // window.location = "confirmation.html";
                             console.log("responseId");
                           } else {
-                            console.log('reponse du serveur: ${response.status');
-                            alert('Probléme avec le serveur: erreur ${response.status}');
+                            console.log('reponse du serveur:' + response.status);
+                            alert('Probléme avec le serveur: erreur ' + response.status);
                   
                   
                   
@@ -352,9 +368,7 @@ btnOrder.addEventListener('click', (e)=>{
                         }
                       });
         }
-                
-            console.log('aEnvoyer');
-            console.log(aEnvoyer);
+           
  
         console.log('Commande enregistrée');
 
