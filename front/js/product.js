@@ -30,8 +30,13 @@ fetch("http://localhost:3000/api/products")
     let description = document.createElement('p');
 
     let colorsProduct = document.getElementById('colors');
+    
 
-// je compare l'id du produit sur ma page avec les _id de l'API pour récupérer les prix et autres descritprions
+    let inputQty = document.getElementById('quantity');
+    // je set la quantité à 1 par défaut
+    inputQty.value = "1";
+
+// je compare l'id du produit sur ma page avec les _id de l'API pour récupérer les prix et autres
     for (let p of value) {
       if (id == p._id) {
 
@@ -55,6 +60,9 @@ fetch("http://localhost:3000/api/products")
           option.value = array[i];
           option.text = array[i];
           colorsProduct.appendChild(option);
+          // je set la couleur par défaut 
+          colorsProduct.selectedIndex = 0;
+          colorsProduct.value = array[0];
 
         }
 
@@ -68,9 +76,8 @@ fetch("http://localhost:3000/api/products")
 
 
     let add = document.getElementById('addToCart');
-
+  
     add.addEventListener("click", function () {
-
 
       // fonction fenêtre pop up
       const popupConfirmation = () => {
