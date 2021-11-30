@@ -1,11 +1,12 @@
-
+// chaque ID du produit a été récupéré dans l'URL
 var str = window.location.href;
 console.log('>>>>> ' + str);
 var url = new URL(str);
+
 var id = url.searchParams.get("id");
 console.log(' >>>>> ' + id);
 
-
+// On accéde et parcourt l'API 
 fetch("http://localhost:3000/api/products")
   .then(function (res) {
     if (res.ok) {
@@ -30,7 +31,7 @@ fetch("http://localhost:3000/api/products")
 
     let colorsProduct = document.getElementById('colors');
 
-
+// je compare l'id du produit sur ma page avec les _id de l'API pour récupérer les prix et autres descritprions
     for (let p of value) {
       if (id == p._id) {
 
@@ -65,73 +66,73 @@ fetch("http://localhost:3000/api/products")
 
     // Lorsqu'on appuie sur Ajouter au panier
 
-    
+
     let add = document.getElementById('addToCart');
-    
-    add.addEventListener("click", function() {
-     
-      
+
+    add.addEventListener("click", function () {
+
+
       // fonction fenêtre pop up
-      const popupConfirmation = () =>{
-        if (window.confirm (`Cliquez OK pour continuer les achats
-        ou Annuler pour voir votre Panier`)){
+      const popupConfirmation = () => {
+        if (window.confirm(`Cliquez OK pour continuer les achats
+        ou Annuler pour voir votre Panier`)) {
           window.location.href = '../html/index.html';
-        }else{
+        } else {
           window.location.href = '../html/cart.html';
         }
       }
-      
+
       popupConfirmation();
 
-      // récupération caractéristiques Produit (formulaire)
+      // récupération des caractéristiques Produit (formulaire)
       let optionsProduit = {
         idProduit: id,
         qty: document.getElementById('quantity').value,
         couleurProduit: document.getElementById('colors').value,
-        
+
       };
 
-      
+
       //**************** LOCAL STORAGE **********************
 
       //Déclaration variable "produitsdanspanier" dans laquelle on mettra les Key et les valeurs qui sont dans le local storage
       // avec JSON.parse pour convertir les données en format JSON qui sont dans le local Storage en objet Javascript
       let produitsdanspanier = JSON.parse(localStorage.getItem("produit"));
-      let articlePanier = JSON.parse(localStorage.getItem ("article"));
+      let articlePanier = JSON.parse(localStorage.getItem("article"));
       // si il y a déjà des produits enregistré dans le local storage
       if (produitsdanspanier) {
         produitsdanspanier.push(optionsProduit);
-    
-      
+
+
       }
       // si rien d'enregistré dans le local storage
       else {
         produitsdanspanier = [];
         produitsdanspanier.push(optionsProduit);
         localStorage.setItem("article", JSON.stringify(produitsdanspanier));
-        
-        
-        if (articlePanier !== null || articlePanier.length !== 0){ 
-        
-          for(let pDP of articlePanier){
+
+
+        if (articlePanier !== null || articlePanier.length !== 0) {
+
+          for (let pDP of articlePanier) {
             // si produit déjà présent (même id, même couleur), on incrémente seulement la qté
-            if (pDP.idProduit == optionsProduit.idProduit && pDP.couleurProduit == optionsProduit.couleurProduit){
+            if (pDP.idProduit == optionsProduit.idProduit && pDP.couleurProduit == optionsProduit.couleurProduit) {
               var intQty_pDP = parseInt(pDP.qty); // conversion des string en entier pour l'incrémentation
               var intQty_optionsProduit = parseInt(optionsProduit.qty);// conversion des string en entier pour l'incrémentation
-              optionsProduit.qty  = intQty_pDP + intQty_optionsProduit +''; // optionsProduit.qty étant un string, on fait l'addition, puis on le remet en strin par le +''
+              optionsProduit.qty = intQty_pDP + intQty_optionsProduit + ''; // optionsProduit.qty étant un string, on fait l'addition, puis on le remet en strin par le +''
 
             }
-            else{
+            else {
               produitsdanspanier.push(pDP);
             }
-            
-            
-  
+
+
+
           }
-          
-        localStorage.setItem("article", JSON.stringify(produitsdanspanier));
-    
-      }
+
+          localStorage.setItem("article", JSON.stringify(produitsdanspanier));
+
+        }
       }
 
     });

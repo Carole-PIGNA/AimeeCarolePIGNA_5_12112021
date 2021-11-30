@@ -1,12 +1,13 @@
+/************************** Requête Fetch : accès à l'API produits ******************************************************** */ 
 fetch("http://localhost:3000/api/products")
   .then(function(res) {
     if (res.ok) {
-      return res.json();
+      return res.json(); // on met le résultat dan sle format json
     }
   })
   .then(function(value) {
     let elt = document.getElementById('items');
-    
+    //  on parcourt les éléments de l'API pour récupérer les id, images, nom du produit et description
     for (let p of value){
 
         let block_product = document.createElement ('a');
@@ -39,6 +40,6 @@ fetch("http://localhost:3000/api/products")
   .catch(function(err) {
     // Une erreur est survenue
   }); 
-  console.log("window size: " + window.innerWidth + " px")
+  
 
   
