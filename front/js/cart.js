@@ -153,7 +153,7 @@ fetch("http://localhost:3000/api/products")
 
             var del = deleteProduit[i];
 
-/* ********************** ajout ou basse quantité articles ****************************/
+/* ********************** Modification quantité articles ****************************/
             qty.onchange = function (e) {
 
 
@@ -239,23 +239,38 @@ fetch("http://localhost:3000/api/products")
 
             }
             else {
-                window.alert('La saisie est invalide !');
+
+                document.getElementById('emailErrorMsg').innerHTML = 'Veuillez rentrer une adresse mail valide !';
                 return false;
             }
 
         }
-        // fonction de vérification du nom/prénom
-        function verif_name(inputtxt) {
+        // fonction de vérification du nom
+        function verif_firstName(inputtxt) {
             var letters = /^[A-Za-z]+$/;
             if (inputtxt.match(letters)) {
 
                 return true;
             }
             else {
-                alert("Veuillez mettre un nom/prénom valide");
+                document.getElementById('firstNameErrorMsg').innerHTML = 'Veuillez rentrer un prénom valide !';
                 return false;
             }
         }
+        // fonction de vérification du prénom
+        function verif_lastName(inputtxt) {
+            var letters = /^[A-Za-z]+$/;
+            if (inputtxt.match(letters)) {
+
+                return true;
+            }
+            else {
+                document.getElementById('lastNameErrorMsg').innerHTML = 'Veuillez rentrer un nom valide !';
+                return false;
+            }
+        }
+
+
 
 
 /**************************Analyse de données saisies -**************************************/
@@ -275,11 +290,11 @@ fetch("http://localhost:3000/api/products")
 
             } else {
                 // sinon, si tous les champs du formaulaire sont bien remplis, faire la vérification du contenu des champs
-                verif_name(nom.value);
-                verif_name(prenom.value);
+                verif_firstName(prenom.value);
+                verif_lastName(nom.value);
                 verif_email(email.value);
                 // si tous les champs ont passé la validation
-                if (verif_name(nom.value) == true && verif_name(prenom.value) == true  && verif_email(email.value) == true) {
+                if (verif_firstName(prenom.value) == true && verif_lastName(nom.value) == true  && verif_email(email.value) == true) {
                     // récupération des valeurs du formulaire pour les mettre dans le localstorage
                     localStorage.setItem('prenom', document.querySelector('#firstName').value);
                     localStorage.setItem('nom', document.querySelector('#lastName').value);
