@@ -203,7 +203,7 @@ fetch("http://localhost:3000/api/products")
                 idToDelete = e.target.closest('article').dataset.id;
 
                 for (i = 0; i < arr.length; i++) {
-                    if (JSON.parse(localStorage.getItem("article"))[i].idProduit == e.target.closest('article').dataset.id) {
+                    if ((JSON.parse(localStorage.getItem("article"))[i].idProduit == e.target.closest('article').dataset.id) && (JSON.parse(localStorage.getItem("article"))[i].couleurProduit == e.target.closest('article').dataset.color) ){
                         delete arr[i];
                         console.log(arr)
                     }
